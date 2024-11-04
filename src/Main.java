@@ -1,4 +1,7 @@
-import java.util.List;
+import Tasks.*;
+
+import com.example.Status.Status;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -47,7 +50,7 @@ public class Main {
         taskManager.updatedEpic(epic1);
 
         // Вывод статуса эпика после обновления подзадачи
-        System.out.println("nUpdated Epic 1 Status: " + epic1.getStatus());
+        System.out.println("nUpdated Tasks.Epic 1 com.example.Status.Status: " + epic1.getStatus());
 
         // Удаление подзадачи
         taskManager.deleteSubTask(subtask3.getId());
