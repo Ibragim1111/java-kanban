@@ -1,7 +1,7 @@
 import Tasks.*;
 
-import com.example.Status.Status;
-import Manager.Managers;
+import com.example.status.Status;
+import manager.Managers;
 import managerTask.TaskManager;
 
 public class Main {

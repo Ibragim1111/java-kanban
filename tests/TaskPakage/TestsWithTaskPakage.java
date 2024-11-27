@@ -1,7 +1,7 @@
+package TaskPakage;
 
 import Tasks.*;
 
-import Manager.Managers;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
-public class TasksWithTaskPakage{
+public class TestsWithTaskPakage {
 
     @Test
-    public void TestTaskEqualityById(){
+    public void testTaskEqualityById(){
         Task task1=new Task();
         Task task2=new Task();
         task1.setId(1);
@@ -20,7 +20,7 @@ public class TasksWithTaskPakage{
         assertEquals(task1,task2);
     }
     @Test
-    public void TestSubclassEqualityById(){
+    public void testSubclassEqualityById(){
         Task task1=new Epic();
         Task task2=new Epic();
         task1.setId(1);

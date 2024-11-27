@@ -1,8 +1,8 @@
 package Tasks;
-import com.example.Status.Status;
-import java.util.ArrayList;
+import com.example.status.Status;
+
 import java.util.Objects;
-import java.util.List;
+
 public class Task {
     private int id;
     private String name;

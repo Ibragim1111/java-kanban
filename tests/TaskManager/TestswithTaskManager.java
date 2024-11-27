@@ -1,4 +1,6 @@
-import HistoryManager.*;
+package TaskManager;
+
+import historyManager.*;
 import Tasks.Epic;
 import Tasks.Task;
 import managerTask.InMemoryTaskManager;

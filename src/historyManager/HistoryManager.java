@@ -1,4 +1,4 @@
-package HistoryManager;
+package historyManager;
 import java.util.List;
 import Tasks.*;
 public interface HistoryManager {

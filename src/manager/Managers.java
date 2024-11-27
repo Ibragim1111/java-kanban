@@ -1,8 +1,8 @@
-package Manager;
+package manager;
 
 import managerTask.*;
 
-import HistoryManager.*;
+import historyManager.*;
 public class Managers {
     public static TaskManager getDefault() {
         // Возвращаем стандартную реализацию TaskManager

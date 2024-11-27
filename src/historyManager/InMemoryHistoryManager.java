@@ -1,4 +1,4 @@
-package HistoryManager;
+package historyManager;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

@@ -1,9 +1,9 @@
 package managerTask;
 
-import Manager.Managers;
+import manager.Managers;
 import Tasks.*;
-import com.example.Status.Status;
-import HistoryManager.*;
+import com.example.status.Status;
+import historyManager.*;
 
 import java.util.*;
 
