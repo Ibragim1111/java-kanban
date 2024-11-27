@@ -8,9 +8,16 @@ public class Task {
     private String name;
     private String description;
     private Status status;
+    public Task(){
 
+    }
     // Getters and Setters
-
+    public Task(Task task){
+        this.id=task.id;
+        this.name=task.name;
+        this.description=task.description;
+        this.status=task.status;
+    }
     public int getId() {
         return id;
     }
@@ -32,8 +39,8 @@ public class Task {
         return name;
     }
 
-    public void setName(Status status) {
-        this.status = status;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
