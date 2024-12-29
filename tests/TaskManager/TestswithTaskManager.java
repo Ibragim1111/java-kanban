@@ -1,8 +1,8 @@
 package TaskManager;
 
 import historyManager.*;
-import Tasks.Epic;
-import Tasks.Task;
+import tasks.Epic;
+import tasks.Task;
 import managerTask.InMemoryTaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestswithTaskManager {
 
     private InMemoryTaskManager taskManager;
+
     @BeforeEach
     public void setUp() {
         taskManager = new InMemoryTaskManager();
@@ -59,7 +60,7 @@ public class TestswithTaskManager {
 
     @Test
     public void testHistoryManagerKeepsPreviousVersion() {
-        HistoryManager historyManager= new InMemoryHistoryManager();
+        HistoryManager historyManager = new InMemoryHistoryManager();
 
         historyManager.add(new Task());
         final List<Task> history = historyManager.getHistory();

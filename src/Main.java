@@ -1,4 +1,4 @@
-import Tasks.*;
+import tasks.*;
 
 import com.example.status.Status;
 import manager.Managers;
@@ -42,13 +42,13 @@ public class Main {
         for (Task task : taskManager.taskListGet()) {
             System.out.println(task.getId() + ": " + task.hashCode() + " - " + task.getStatus());
         }
-        for(Task g: taskManager.taskListGet()){
-             taskManager.getTask(g.getId());
+        for (Task g : taskManager.taskListGet()) {
+            taskManager.getTask(g.getId());
         }
-        for(Task g: taskManager.subTaskListGet()){
+        for (Task g : taskManager.subTaskListGet()) {
             taskManager.getSubTasks(g.getId());
         }
-        for(Task g: taskManager.EpicListGet()){
+        for (Task g : taskManager.EpicListGet()) {
             taskManager.getEpic(g.getId());
         }
         printAllTasks(taskManager);
@@ -56,9 +56,8 @@ public class Main {
         subtask1.setStatus(Status.DONE);
 
 
-
-
     }
+
     private static void printAllTasks(TaskManager manager) {
         System.out.println("Задачи:");
         for (Task task : manager.taskListGet()) {
@@ -73,7 +72,7 @@ public class Main {
             }
         }
         System.out.println("Подзадачи:");
-        for (Task subtask : manager.subTaskListGet() ) {
+        for (Task subtask : manager.subTaskListGet()) {
             System.out.println(subtask);
         }
 
