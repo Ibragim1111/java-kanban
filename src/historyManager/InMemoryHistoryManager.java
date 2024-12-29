@@ -1,30 +1,158 @@
 package historyManager;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
+
+import Tasks.Epic;
+import Tasks.SubTask;
 import Tasks.Task;
+
 public class InMemoryHistoryManager implements HistoryManager {
-    private final LinkedHashSet<Task> history; //Для удаления дублткатов
+    private final DoublyLinkedList history; //Для удаления дублткатов
 
     public InMemoryHistoryManager() {
-        this.history = new LinkedHashSet<>();
+        this.history = new DoublyLinkedList();
     }
 
     @Override
     public void add(Task task) {
-        if (task != null) {
-            history.add(task);
-            // Ограничиваем размер истории до 10 задач
-            if (history.size() > 10) {
-                history.remove(history.iterator().next()); // Удаляем самую старую задачу
-            }
-        }
+        history.add(task);
     }
 
     @Override
+    public void remove(int id) {
+        history.removeNode(id);
+    }
+
+
+    @Override
     public List<Task> getHistory() {
-        return new ArrayList<>(history); // Возвращаем историю как список
+        return history.getTasks(); // Возвращаем историю как список
     }
 }
+
+class DoublyLinkedList {
+    public Node<Task> head;
+    public Node<Task> tail;
+    private int size = 0;
+    private Map<Integer, Node> taskMap = new HashMap<>();
+    // Вложенный класс Node
+
+
+    // Конструктор
+    public DoublyLinkedList() {
+        this.head = null;
+        this.tail = null;
+
+    }
+
+    // Метод для добавления элемента в конец списка
+    private void linkLast(Task task) {
+
+
+        // Приводим объект к типу Person
+
+        Node<Task> newNode = new Node<Task>(task);
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+        }
+        size++;
+        taskMap.put(task.getId(), newNode);
+    }
+
+    public void add(Task task) {
+        // Если задача уже существует, удаляем её
+        if (taskMap.containsKey(task.getId())) {
+            removeNode(task.getId());
+        }
+
+        // Создаем новый узел
+        Node newNode = new Node(task);
+
+        // Добавляем новый узел в конец списка
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+        }
+
+        // Обновляем размер списка
+        size++;
+
+        // Сохраняем узел в HashMap
+        taskMap.put(task.getId(), newNode);
+    }
+
+    // Метод для удаления узла
+    public void removeNode(int taskId) {
+        Node nodeToRemove = taskMap.get(taskId);
+
+        if (nodeToRemove.data instanceof Epic) {
+            Epic epc = (Epic) nodeToRemove.data;
+            List<Integer> subTaskIds = epc.SubTask(); // Предполагаем, что есть метод для получения ID подзадач
+
+            // Удаляем все подзадачи из истории
+            for (Integer subTaskId : subTaskIds) {
+                if (taskMap.get(subTaskId).data instanceof SubTask) {
+                    removeNode(subTaskId);
+                }
+                // Рекурсивно удаляем каждую подзадачу
+            }
+        }
+        if (nodeToRemove == null) return; // Если узел не найден, ничего не делаем
+
+        // Обновляем ссылки для удаления узла
+        if (nodeToRemove == head) {
+            head = nodeToRemove.next;
+            if (head != null) {
+                head.prev = null;
+            }
+        } else if (nodeToRemove == tail) {
+            tail = nodeToRemove.prev;
+            if (tail != null) {
+                tail.next = null;
+            }
+        } else {
+            nodeToRemove.prev.next = nodeToRemove.next;
+            nodeToRemove.next.prev = nodeToRemove.prev;
+        }
+
+        // Удаляем узел из HashMap
+        taskMap.remove(taskId);
+
+        // Обновляем размер списка
+        size--;
+    }
+
+
+    // Метод для получения размера списка
+    public int size() {
+        return size;
+    }
+
+    // Метод для печати списка от головы до хвоста
+
+
+    // Пример использования
+    public List<Task> getTasks() {
+        List<Task> tasks = new ArrayList<>();
+        Node<Task> current = head;
+        while (current != null) {
+            tasks.add(current.data);
+            current = current.next;
+        }
+        return tasks;
+    }
+}
+
 

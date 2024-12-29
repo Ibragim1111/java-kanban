@@ -36,7 +36,7 @@ public class InMemoryTaskManager implements TaskManager {
 
 
         subTask.setId(idCounter++);
-        subTasks.put(subTask.getId(), new SubTask(subTask) );
+        subTasks.put(subTask.getId(), new SubTask(subTask));
 
         epics.get(subTask.getEpicID()).addId(subTask.getId());
         updateTasks(epics.get(subTask.getEpicID()));
@@ -193,7 +193,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return newSubTasks;
     }
-    public void addToHistory(Task task){
+
+    public void addToHistory(Task task) {
         history.add(task);
     }
 
