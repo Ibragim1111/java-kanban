@@ -1,19 +1,18 @@
-package Tasks;
-
-import java.util.ArrayList;
+package tasks;
 
 public class SubTask extends Task {
 
     private int epicId;
-    public SubTask(){
+
+    public SubTask() {
 
     }
 
     public SubTask(Task task) {
         super(task);
-        if(task instanceof SubTask){
-            SubTask newTask=(SubTask) task;
-            epicId=newTask.getEpicID();
+        if (task instanceof SubTask) {
+            SubTask newTask = (SubTask) task;
+            epicId = newTask.getEpicID();
         }
     }
 
@@ -24,7 +23,6 @@ public class SubTask extends Task {
     public int getEpicID() {
         return epicId;
     }
-
 
 
 }
