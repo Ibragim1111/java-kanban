@@ -6,7 +6,7 @@ import tasks.Task;
 
 import java.util.List;
 
-import historyManager.InMemoryHistoryManager;
+import historymanager.InMemoryHistoryManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
