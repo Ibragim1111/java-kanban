@@ -18,7 +18,7 @@ public class Epic extends Task {
         }
     }
 
-    public List<Integer> SubTask() {
+    public List<Integer> subTask() {
         return subTasks;
     }
 
