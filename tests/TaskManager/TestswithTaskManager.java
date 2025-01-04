@@ -3,7 +3,7 @@ package TaskManager;
 import historyManager.*;
 import tasks.Epic;
 import tasks.Task;
-import taskManager.InMemoryTaskManager;
+import taskmanager.InMemoryTaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
 package manager;
 
-import taskManager.*;
+import taskmanager.*;
 
 import historyManager.*;
 

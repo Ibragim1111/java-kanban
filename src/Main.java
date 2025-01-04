@@ -2,7 +2,7 @@ import tasks.*;
 
 import com.example.status.Status;
 import manager.Managers;
-import taskManager.TaskManager;
+import taskmanager.TaskManager;
 
 public class Main {
 
