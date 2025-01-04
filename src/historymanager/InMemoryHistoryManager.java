@@ -1,4 +1,4 @@
-package historyManager;
+package historymanager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +99,7 @@ class DoublyLinkedList {
 
         if (nodeToRemove.data instanceof Epic) {
             Epic epc = (Epic) nodeToRemove.data;
-            List<Integer> subTaskIds = epc.SubTask(); // Предполагаем, что есть метод для получения ID подзадач
+            List<Integer> subTaskIds = epc.subTask(); // Предполагаем, что есть метод для получения ID подзадач
 
             // Удаляем все подзадачи из истории
             for (Integer subTaskId : subTaskIds) {
