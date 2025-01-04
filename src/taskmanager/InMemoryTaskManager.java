@@ -3,7 +3,7 @@ package taskmanager;
 import manager.Managers;
 import tasks.*;
 import com.example.status.Status;
-import historyManager.*;
+import historymanager.*;
 
 import java.util.*;
 
@@ -187,7 +187,7 @@ public class InMemoryTaskManager implements TaskManager {
             throw new IllegalArgumentException("Tasks.Epic with ID " + epicId + " does not exist");
         }
         List<SubTask> newSubTasks = new ArrayList<>();
-        List<Integer> subTasksId = epics.get(epicId).SubTask();
+        List<Integer> subTasksId = epics.get(epicId).subTask();
         for (int subTaskId : subTasksId) {
             newSubTasks.add(subTasks.get(subTaskId));
         }
@@ -203,7 +203,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void updateEpicStatus(Epic epic) {
-        if (epic.SubTask().isEmpty()) {
+        if (epic.subTask().isEmpty()) {
             epic.setStatus(Status.NEW);
             return;
         }

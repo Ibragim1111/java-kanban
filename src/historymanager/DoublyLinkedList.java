@@ -1,37 +1,13 @@
-package historyManager;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+package historymanager;
 
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
 
-public class InMemoryHistoryManager implements HistoryManager {
-    private final DoublyLinkedList history; //Для удаления дублткатов
-
-    public InMemoryHistoryManager() {
-        this.history = new DoublyLinkedList();
-    }
-
-    @Override
-    public void add(Task task) {
-        history.add(task);
-    }
-
-    @Override
-    public void remove(int id) {
-        history.removeNode(id);
-    }
-
-
-    @Override
-    public List<Task> getHistory() {
-        return history.getTasks(); // Возвращаем историю как список
-    }
-}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class DoublyLinkedList {
     public Node<Task> head;
@@ -99,7 +75,7 @@ class DoublyLinkedList {
 
         if (nodeToRemove.data instanceof Epic) {
             Epic epc = (Epic) nodeToRemove.data;
-            List<Integer> subTaskIds = epc.SubTask(); // Предполагаем, что есть метод для получения ID подзадач
+            List<Integer> subTaskIds = epc.subTask(); // Предполагаем, что есть метод для получения ID подзадач
 
             // Удаляем все подзадачи из истории
             for (Integer subTaskId : subTaskIds) {
@@ -154,5 +130,6 @@ class DoublyLinkedList {
         return tasks;
     }
 }
+
 
 
