@@ -48,7 +48,7 @@ public class Main {
         for (Task g : taskManager.subTaskListGet()) {
             taskManager.getSubTasks(g.getId());
         }
-        for (Task g : taskManager.EpicListGet()) {
+        for (Task g : taskManager.getEpicList()) {
             taskManager.getEpic(g.getId());
         }
         printAllTasks(taskManager);
@@ -64,7 +64,7 @@ public class Main {
             System.out.println(task);
         }
         System.out.println("Эпики:");
-        for (Task epic : manager.EpicListGet()) {
+        for (Task epic : manager.getEpicList()) {
             System.out.println(epic);
 
             for (Task task : manager.getSubTaskByEpic(epic.getId())) {
