@@ -1,6 +1,6 @@
-package historyManager;
+package historymanager;
 import java.util.List;
-import Tasks.*;
+import tasks.*;
 
 public interface HistoryManager {
     void add(Task task);

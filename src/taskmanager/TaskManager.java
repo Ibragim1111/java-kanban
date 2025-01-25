@@ -1,8 +1,10 @@
-package managerTask;
+package taskmanager;
 
-import Tasks.Epic;
-import Tasks.SubTask;
-import Tasks.Task;
+import tasks.Epic;
+
+
+import tasks.SubTask;
+import tasks.Task;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public interface TaskManager {
 
      List<SubTask> subTaskListGet();
 
-     List<Epic> EpicListGet();
+     List<Epic> getEpicList(); // Исправлено
 
      Task getTask(int id);
 

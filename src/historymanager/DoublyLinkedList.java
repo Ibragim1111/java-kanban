@@ -1,42 +1,17 @@
-package historyManager;
-
+package historymanager;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-
-import Tasks.Epic;
-import Tasks.SubTask;
-import Tasks.Task;
-public class InMemoryHistoryManager implements HistoryManager {
-    private final DoublyLinkedList history; //Для удаления дублткатов
-
-    public InMemoryHistoryManager() {
-        this.history = new DoublyLinkedList();
-    }
-
-    @Override
-    public void add(Task task) {
-        history.add(task);
-    }
-
-    @Override
-    public void remove(int id) {
-        history.removeNode(id);
-    }
-
-
-    @Override
-    public List<Task> getHistory() {
-        return history.getTasks(); // Возвращаем историю как список
-    }
-}
+import java.util.Map;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
 
 class DoublyLinkedList {
     public Node<Task> head;
     public Node<Task> tail;
     private int size = 0;
-    private Map<Integer, Node> taskMap=new HashMap<>();
+    private Map<Integer, Node> taskMap = new HashMap<>();
     // Вложенный класс Node
 
 
@@ -65,6 +40,7 @@ class DoublyLinkedList {
         size++;
         taskMap.put(task.getId(), newNode);
     }
+
     public void add(Task task) {
         // Если задача уже существует, удаляем её
         if (taskMap.containsKey(task.getId())) {
@@ -97,14 +73,14 @@ class DoublyLinkedList {
 
         if (nodeToRemove.data instanceof Epic) {
             Epic epc = (Epic) nodeToRemove.data;
-            List<Integer> subTaskIds = epc.SubTask(); // Предполагаем, что есть метод для получения ID подзадач
+            List<Integer> subTaskIds = epc.subTask(); // Предполагаем, что есть метод для получения ID подзадач
 
             // Удаляем все подзадачи из истории
             for (Integer subTaskId : subTaskIds) {
                 if (taskMap.get(subTaskId).data instanceof SubTask) {
                     removeNode(subTaskId);
                 }
-                 // Рекурсивно удаляем каждую подзадачу
+                // Рекурсивно удаляем каждую подзадачу
             }
         }
         if (nodeToRemove == null) return; // Если узел не найден, ничего не делаем
@@ -152,5 +128,3 @@ class DoublyLinkedList {
         return tasks;
     }
 }
-
-

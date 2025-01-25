@@ -1,4 +1,4 @@
-package historyManager;
+package historymanager;
 
 public class Node<T> {
     public T data;

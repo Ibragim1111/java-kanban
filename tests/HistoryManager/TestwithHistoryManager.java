@@ -1,10 +1,13 @@
 package HistoryManager;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import Tasks.Epic;
-import Tasks.Task;
+import tasks.Task;
+
 import java.util.List;
-import historyManager.InMemoryHistoryManager;
+
+import historymanager.InMemoryHistoryManager;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestwithHistoryManager {
@@ -56,7 +59,7 @@ public class TestwithHistoryManager {
     @Test
     void testDuplicateTask() {
         Task task1 = new Task();
-         // Задача с тем же ID
+        // Задача с тем же ID
 
         historyManager.add(task1);
         historyManager.add(task1); // Это должно заменить task1

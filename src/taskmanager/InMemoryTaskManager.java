@@ -1,9 +1,9 @@
-package managerTask;
+package taskmanager;
 
 import manager.Managers;
-import Tasks.*;
+import tasks.*;
 import com.example.status.Status;
-import historyManager.*;
+import historymanager.*;
 
 import java.util.*;
 
@@ -36,7 +36,7 @@ public class InMemoryTaskManager implements TaskManager {
 
 
         subTask.setId(idCounter++);
-        subTasks.put(subTask.getId(), new SubTask(subTask) );
+        subTasks.put(subTask.getId(), new SubTask(subTask));
 
         epics.get(subTask.getEpicID()).addId(subTask.getId());
         updateTasks(epics.get(subTask.getEpicID()));
@@ -112,7 +112,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Epic> EpicListGet() {
+    public List<Epic> getEpicList() {
         return new ArrayList<>(epics.values());
     }
 
@@ -187,13 +187,14 @@ public class InMemoryTaskManager implements TaskManager {
             throw new IllegalArgumentException("Tasks.Epic with ID " + epicId + " does not exist");
         }
         List<SubTask> newSubTasks = new ArrayList<>();
-        List<Integer> subTasksId = epics.get(epicId).SubTask();
+        List<Integer> subTasksId = epics.get(epicId).subTask();
         for (int subTaskId : subTasksId) {
             newSubTasks.add(subTasks.get(subTaskId));
         }
         return newSubTasks;
     }
-    public void addToHistory(Task task){
+
+    public void addToHistory(Task task) {
         history.add(task);
     }
 
@@ -202,7 +203,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void updateEpicStatus(Epic epic) {
-        if (epic.SubTask().isEmpty()) {
+        if (epic.subTask().isEmpty()) {
             epic.setStatus(Status.NEW);
             return;
         }

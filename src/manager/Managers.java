@@ -1,8 +1,9 @@
 package manager;
 
-import managerTask.*;
+import taskmanager.*;
 
-import historyManager.*;
+import historymanager.*;
+
 public class Managers {
     public static TaskManager getDefault() {
         // Возвращаем стандартную реализацию TaskManager
