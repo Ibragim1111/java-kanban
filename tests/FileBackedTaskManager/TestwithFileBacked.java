@@ -39,11 +39,10 @@ public class TestwithFileBacked {
     public void testSaveMultipleTasks() {
         // Создаем несколько задач
         Task task1 = new Task(1, TaskType.TASK, "Task 1", "Description 1", Status.NEW);
-        Task task2 = new Task(2, TaskType.TASK,"Task 2", "Description 2", Status.IN_PROGRESS);
+        Task task2 = new Task(2, TaskType.TASK, "Task 2", "Description 2", Status.IN_PROGRESS);
 
         manager.createTask(task1);
         manager.createTask(task2);
-
 
         // Создаем новый менеджер для загрузки из файла
         FileBackedTaskManager newManager = new FileBackedTaskManager(tempFile);
@@ -73,24 +72,20 @@ public class TestwithFileBacked {
         // Проверяем содержимое файла
         try {
             List<String> lines = Files.readAllLines(tempFile.toPath());
-            //System.out.print(lines.toString());
+            // System.out.print(lines.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FileBackedTaskManager newManager = new FileBackedTaskManager(tempFile);
-        System.out.print(newManager.getAllTasks().size());
 
+        FileBackedTaskManager newManager = new FileBackedTaskManager(tempFile);
 
 
         // Проверяем, что задачи загружены корректно
+        assertEquals(3, newManager.getAllTasks().size());
 
-    //    assertEquals(3, newManager.getAllTasks().size());
-     //   System.out.print(newManager.getAllTasks().toString());
 
         assertEquals("Epic 1", newManager.getAllTasks().get(0).getName()); // Проверка на эпик
-
         assertEquals("Task 2", newManager.getAllTasks().get(1).getName()); // Обратите внимание на порядок
-
     }
 
 

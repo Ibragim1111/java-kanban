@@ -231,7 +231,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
     }
-    public List<Task> getAllTasks(){
+    public List<Task> getAllTasks() {
         return allTasks;
     }
 
