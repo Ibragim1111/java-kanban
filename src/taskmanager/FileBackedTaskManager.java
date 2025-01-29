@@ -32,14 +32,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-
     private void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
             writer.write("id,type,name,status,description,epic"); // Заголовок CSV
             writer.newLine(); // Переход на новую строку
 
             for (Task task : getAllTasks()) {
-                writer.write(ToString(task));
+                writer.write(toString(task)); // Исправлено: метод назван с маленькой буквы
                 writer.newLine(); // Переход на новую строку после каждой записи
             }
         } catch (IOException e) {
@@ -47,23 +46,20 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    private String ToString(Task task) {
-
-       return task.toString();
+    private String toString(Task task) { // Исправлено: метод назван с маленькой буквы
+        return task.toString();
     }
 
     private void loadFromFile(File file) {
-
         try {
             List<String> lines = Files.readAllLines(file.toPath());
-          System.out.println(lines.toString());
+
             if (lines.size() <= 1) {
                 System.out.println("Файл пуст или содержит только заголовок: " + file.getAbsolutePath());
                 return; // Или выбросить исключение
             }
 
             for (String line : lines.subList(1, lines.size())) {
-
                 Task task = fromString(line);
 
                 if (task != null) {
@@ -81,29 +77,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-
     // Метод для создания задачи из строки
     public static Task fromString(String value) {
-     String[] valueList = value.split(",");
+        String[] valueList = value.split(",");
 
-     String type = valueList[1];
-
-
+        String type = valueList[1];
 
         switch (type) {
             case "TASK":
                 return Task.fromString(valueList);
             case "SUBTASK":
-
-                return  SubTask.fromString(valueList);
+                return SubTask.fromString(valueList);
             case "EPIC":
-                return   Epic.fromString(valueList);
+                return Epic.fromString(valueList);
             default:
-                throw new IllegalArgumentException("Unknown task type: " + type);
+                throw new IllegalArgumentException("Неизвестный тип задачи: " + type); // Исправлено на русский язык
         }
-
     }
-
 
 
     @Override

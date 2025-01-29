@@ -24,7 +24,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        /*
+
         TaskManager taskManager = Managers.getDefault();
 
         // Создание эпиков
@@ -76,7 +76,7 @@ public class Main {
 
     }
 
-    private static void printAllTasks(TaskManager manager) {
+    private static void printAllTasks(TaskManager manager) throws IOException {
         System.out.println("Задачи:");
         for (Task task : manager.taskListGet()) {
             System.out.println(task);
@@ -99,28 +99,8 @@ public class Main {
             System.out.println(task);
         }
 
-         */
-        File tempFile = File.createTempFile("task_manager", ".csv");
-        // Удаляем файл при завершении теста
-        tempFile.deleteOnExit();
-        FileBackedTaskManager manager = new FileBackedTaskManager(tempFile);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
-            writer.write("id,type,name,status,description,epic");
 
-            writer.newLine();
-            writer.write("1,EPIC,Epic 1,NEW,Description 1,0"); // Добавляем эпик
-            writer.newLine();
-            writer.write("2,TASK,Task 2,IN_PROGRESS,Description 2,0");
-            writer.newLine();
-            writer.write("3,SUBTASK,SubTask 1,NEW,Description 3,1"); // Подзадача ссылается на эпик
-            writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Загружаем задачи из файла
-        FileBackedTaskManager newManager = new FileBackedTaskManager(tempFile);
 
     }
 }
