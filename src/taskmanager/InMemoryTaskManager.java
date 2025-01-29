@@ -4,16 +4,19 @@ import manager.Managers;
 import tasks.*;
 import com.example.status.Status;
 import historymanager.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.*;
 
 
 public class InMemoryTaskManager implements TaskManager {
     private int idCounter = 1; // Счетчик для уникальных идентификаторов
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, SubTask> subTasks = new HashMap<>();
-    private final HistoryManager history = Managers.getDefaultHistory();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected final HistoryManager history = Managers.getDefaultHistory();
+    protected final List<Task> allTasks = new ArrayList<>();
 
     @Override
     public void createTask(Task task) {
@@ -23,6 +26,7 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(idCounter++);
         task.setStatus(Status.NEW);
         tasks.put(task.getId(), new Task(task));
+        allTasks.add(task);
     }
 
     @Override
@@ -39,9 +43,9 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.put(subTask.getId(), new SubTask(subTask));
 
         epics.get(subTask.getEpicID()).addId(subTask.getId());
-        updateTasks(epics.get(subTask.getEpicID()));
+        updateEpicStatus(epics.get(subTask.getEpicID()));
 
-
+        allTasks.add(subTask);
     }
 
     @Override
@@ -52,6 +56,8 @@ public class InMemoryTaskManager implements TaskManager {
         int newTaskId = idCounter++;
         epic.setId(newTaskId);
         epics.put(epic.getId(), new Epic(epic));
+
+        allTasks.add(epic);
     }
 
     @Override
@@ -224,6 +230,9 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(Status.NEW);
         }
 
+    }
+    public List<Task> getAllTasks(){
+        return allTasks;
     }
 
 }

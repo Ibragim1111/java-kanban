@@ -1,5 +1,8 @@
 package tasks;
 
+import being.taskstypes.TaskType;
+import com.example.status.Status;
+
 public class SubTask extends Task {
 
     private int epicId;
@@ -16,12 +19,30 @@ public class SubTask extends Task {
         }
     }
 
+    public SubTask(int id, TaskType type, String name, String description, Status status , int epicId){
+
+        super(id,type, name, description,status);
+        this.epicId=epicId;
+    }
+
     public void setEpicId(int epicId) {
         this.epicId = epicId;
     }
 
     public int getEpicID() {
         return epicId;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + epicId;
+    }
+
+
+    public static SubTask fromString(String[] value) {
+
+
+        return new SubTask(Integer.parseInt(value[0]),TaskType.valueOf(value[1]), value[2], value[4], Status.valueOf(value[3]), Integer.parseInt(value[5]));
     }
 
 
