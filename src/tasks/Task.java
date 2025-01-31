@@ -77,9 +77,12 @@ public class Task {
                 Status.valueOf(value[3])
         );
     }
+
+
     public TaskType getType() {
         return TaskType.TASK;
     }
+
 
     @Override
     public boolean equals(Object obj) {

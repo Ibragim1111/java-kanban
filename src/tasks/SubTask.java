@@ -24,7 +24,6 @@ public class SubTask extends Task {
         this.epicId = epicId; // убедитесь в наличии пробелов вокруг '='
     }
 
-
     public void setEpicId(int epicId) {
         this.epicId = epicId;
     }
@@ -32,8 +31,10 @@ public class SubTask extends Task {
     public int getEpicID() {
         return epicId;
     }
+
     @Override
     public TaskType getType() {
+
         return TaskType.SUBTASK;
     }
 
@@ -41,7 +42,6 @@ public class SubTask extends Task {
     public String toString() {
         return super.toString() + epicId;
     }
-
 
     public static SubTask fromString(String[] value) {
 

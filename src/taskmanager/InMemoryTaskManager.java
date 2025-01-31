@@ -47,6 +47,7 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     }
+
     @Override
     public void createEpic(Epic epic) {
         createEpic(epic, 0);
@@ -57,7 +58,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             throw new IllegalArgumentException("Tasks.Epic cannot be null");
         }
-        int newTaskId = id==0? idCounter++: id;
+        int newTaskId = (id == 0) ? idCounter++ : id;
         epic.setId(newTaskId);
         epics.put(epic.getId(), new Epic(epic));
 
@@ -236,6 +237,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
     }
+
     public List<Task> getAllTasks() {
 
             List<Task> allTasksList = new ArrayList<>();
