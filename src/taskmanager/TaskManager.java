@@ -14,7 +14,9 @@ public interface TaskManager {
      void createSubTask(SubTask subTask);
 
      void createEpic(Epic epic);
+
      void createEpic(Epic epic, int id);
+
      void deleteTask(int id);
 
      void deleteSubTask(int id);

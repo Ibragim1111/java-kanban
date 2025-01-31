@@ -1,6 +1,10 @@
 package tasks;
 
 import com.example.status.Status;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import being.taskstypes.TaskType;
 
@@ -10,6 +14,7 @@ public class Task {
     private String description;
     private Status status;
 
+     // Время начала выполнения задачи
     public Task() {
         // Конструктор по умолчанию
     }
@@ -28,6 +33,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
+
     }
 
     // Геттеры и сеттеры
@@ -63,6 +69,7 @@ public class Task {
         this.description = description;
     }
 
+
     @Override
     public String toString() {
         return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",";
@@ -77,9 +84,12 @@ public class Task {
                 Status.valueOf(value[3])
         );
     }
+
+
     public TaskType getType() {
         return TaskType.TASK;
     }
+
 
     @Override
     public boolean equals(Object obj) {
