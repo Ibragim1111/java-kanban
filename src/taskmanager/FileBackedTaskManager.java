@@ -1,13 +1,14 @@
 package taskmanager;
 
 
+import being.taskstypes.TaskType;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
 import java.nio.charset.StandardCharsets;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import java.io.BufferedWriter;
@@ -55,27 +56,36 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             List<String> lines = Files.readAllLines(file.toPath());
 
             if (lines.size() <= 1) {
-                System.out.println("Файл пуст или содержит только заголовок: " + file.getAbsolutePath());
+
                 return; // Или выбросить исключение
             }
 
+            List<Epic> epicsToCreate = new ArrayList<>();
+            List<SubTask> subTasksToCreate = new ArrayList<>();
+
+            // Обрабатываем строки файла за один проход
             for (String line : lines.subList(1, lines.size())) {
                 Task task = fromString(line);
+                if (task == null) continue; // Пропускаем пустые задачи
 
-                if (task != null) {
-                    if (task instanceof Epic) {
-                        createEpic((Epic) task);
-                    } else if (task instanceof SubTask) {
-                        createSubTask((SubTask) task);
-                    } else {
-                        createTask(task);
-                    }
+                if (task.getType() == TaskType.EPIC) {
+                    epicsToCreate.add((Epic) task);
+                } else if (task.getType() == TaskType.SUBTASK) {
+                    subTasksToCreate.add((SubTask) task);
+                } else {
+                    createTask(task); // Создаем обычные задачи сразу
                 }
             }
+
+            // Создаем эпики и подзадачи
+            epicsToCreate.forEach(epic -> createEpic(epic, epic.getId()));
+            subTasksToCreate.forEach(this::createSubTask);
+
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка при загрузке задач из файла: " + file.getAbsolutePath(), e);
         }
     }
+
 
     // Метод для создания задачи из строки
     public static Task fromString(String value) {
@@ -116,6 +126,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
+
+    @Override
+    public void createEpic(Epic epic, int id) {
+        super.createEpic(epic,id);
+        save();
+    }
     @Override
     public void deleteTask(int id) {
         super.deleteTask(id);

@@ -19,11 +19,11 @@ public class SubTask extends Task {
         }
     }
 
-    public SubTask(int id, TaskType type, String name, String description, Status status , int epicId) {
-
-        super(id,type, name, description,status);
-        this.epicId=epicId;
+    public SubTask(int id, TaskType type, String name, String description, Status status, int epicId) {
+        super(id, type, name, description, status);
+        this.epicId = epicId; // убедитесь в наличии пробелов вокруг '='
     }
+
 
     public void setEpicId(int epicId) {
         this.epicId = epicId;
@@ -31,6 +31,10 @@ public class SubTask extends Task {
 
     public int getEpicID() {
         return epicId;
+    }
+    @Override
+    public TaskType getType(){
+        return TaskType.SUBTASK;
     }
 
     @Override
