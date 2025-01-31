@@ -39,10 +39,16 @@ public class Epic extends Task {
     }
 
     @Override
+<<<<<<< HEAD
     public TaskType getType() {
         return TaskType.EPIC;
     }
 
+=======
+    public TaskType getType(){
+        return TaskType.EPIC;
+    }
+>>>>>>> f9879962fbe59af4b84ee9e0426d94c4071664de
     @Override
     public String toString() {
         return super.toString(); // Эпики не имеют epicId

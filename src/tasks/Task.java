@@ -77,10 +77,16 @@ public class Task {
                 Status.valueOf(value[3])
         );
     }
+<<<<<<< HEAD
     public TaskType getType() {
         return TaskType.TASK;
     }
 
+=======
+    public TaskType getType(){
+        return TaskType.TASK;
+    }
+>>>>>>> f9879962fbe59af4b84ee9e0426d94c4071664de
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
