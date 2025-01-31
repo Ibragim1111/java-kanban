@@ -84,8 +84,8 @@ public class TestwithFileBacked {
         assertEquals(3, newManager.getAllTasks().size());
 
 
-        assertEquals("Epic 1", newManager.getAllTasks().get(0).getName()); // Проверка на эпик
-        assertEquals("Task 2", newManager.getAllTasks().get(1).getName()); // Обратите внимание на порядок
+        assertEquals("Task 2", newManager.getAllTasks().get(0).getName()); // Проверка на эпик
+        assertEquals("Epic 1", newManager.getAllTasks().get(1).getName()); // Обратите внимание на порядок
     }
 
 

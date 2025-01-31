@@ -16,7 +16,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final Map<Integer, SubTask> subTasks = new HashMap<>();
     protected final HistoryManager history = Managers.getDefaultHistory();
-    protected final List<Task> allTasks = new ArrayList<>();
+
 
     @Override
     public void createTask(Task task) {
@@ -26,7 +26,7 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(idCounter++);
         task.setStatus(Status.NEW);
         tasks.put(task.getId(), new Task(task));
-        allTasks.add(task);
+
     }
 
     @Override
@@ -45,19 +45,23 @@ public class InMemoryTaskManager implements TaskManager {
         epics.get(subTask.getEpicID()).addId(subTask.getId());
         updateEpicStatus(epics.get(subTask.getEpicID()));
 
-        allTasks.add(subTask);
+
+    }
+    @Override
+    public void createEpic(Epic epic) {
+        createEpic(epic, 0);
     }
 
     @Override
-    public void createEpic(Epic epic) {
+    public void createEpic(Epic epic, int id) {
         if (epic == null) {
             throw new IllegalArgumentException("Tasks.Epic cannot be null");
         }
-        int newTaskId = idCounter++;
+        int newTaskId = id==0? idCounter++: id;
         epic.setId(newTaskId);
         epics.put(epic.getId(), new Epic(epic));
 
-        allTasks.add(epic);
+
     }
 
     @Override
@@ -218,6 +222,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         for (SubTask subtask : getSubTaskByEpic(epic.getId())) {
             if (subtask.getStatus() == Status.IN_PROGRESS) {
+                epic.setStatus(Status.IN_PROGRESS);
                 return;
             } else if (subtask.getStatus() != Status.DONE) {
                 allDone = false;
@@ -232,7 +237,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     }
     public List<Task> getAllTasks() {
-        return allTasks;
+
+            List<Task> allTasksList = new ArrayList<>();
+
+            // Добавляем задачи из первой карты
+            allTasksList.addAll(tasks.values());
+        allTasksList.addAll(epics.values());
+            // Добавляем задачи из второй карты
+            allTasksList.addAll(subTasks.values());
+
+            // Добавляем задачи из третьей карты
+
+
+            return allTasksList;
+
+
     }
 
 }
