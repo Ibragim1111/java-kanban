@@ -4,16 +4,19 @@ import manager.Managers;
 import tasks.*;
 import com.example.status.Status;
 import historymanager.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.*;
 
 
 public class InMemoryTaskManager implements TaskManager {
     private int idCounter = 1; // Счетчик для уникальных идентификаторов
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, SubTask> subTasks = new HashMap<>();
-    private final HistoryManager history = Managers.getDefaultHistory();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected final HistoryManager history = Managers.getDefaultHistory();
+
 
     @Override
     public void createTask(Task task) {
@@ -23,6 +26,7 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(idCounter++);
         task.setStatus(Status.NEW);
         tasks.put(task.getId(), new Task(task));
+
     }
 
     @Override
@@ -39,19 +43,26 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.put(subTask.getId(), new SubTask(subTask));
 
         epics.get(subTask.getEpicID()).addId(subTask.getId());
-        updateTasks(epics.get(subTask.getEpicID()));
+        updateEpicStatus(epics.get(subTask.getEpicID()));
 
 
     }
 
     @Override
     public void createEpic(Epic epic) {
+        createEpic(epic, 0);
+    }
+
+    @Override
+    public void createEpic(Epic epic, int id) {
         if (epic == null) {
             throw new IllegalArgumentException("Tasks.Epic cannot be null");
         }
-        int newTaskId = idCounter++;
+        int newTaskId = (id == 0) ? idCounter++ : id;
         epic.setId(newTaskId);
         epics.put(epic.getId(), new Epic(epic));
+
+
     }
 
     @Override
@@ -212,6 +223,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         for (SubTask subtask : getSubTaskByEpic(epic.getId())) {
             if (subtask.getStatus() == Status.IN_PROGRESS) {
+                epic.setStatus(Status.IN_PROGRESS);
                 return;
             } else if (subtask.getStatus() != Status.DONE) {
                 allDone = false;
@@ -223,6 +235,24 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             epic.setStatus(Status.NEW);
         }
+
+    }
+
+    public List<Task> getAllTasks() {
+
+            List<Task> allTasksList = new ArrayList<>();
+
+            // Добавляем задачи из первой карты
+            allTasksList.addAll(tasks.values());
+        allTasksList.addAll(epics.values());
+            // Добавляем задачи из второй карты
+            allTasksList.addAll(subTasks.values());
+
+            // Добавляем задачи из третьей карты
+
+
+            return allTasksList;
+
 
     }
 

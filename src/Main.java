@@ -1,12 +1,33 @@
+// import taskmanager.FileBackedTaskManager;
 import tasks.*;
 
 import com.example.status.Status;
 import manager.Managers;
 import taskmanager.TaskManager;
 
+
+import java.io.IOException;
+
+
+/*
+import taskmanager.*;
+import java.io.File;
+import com.example.status.Status;
+*/
+import tasks.Task;
+/*
+import java.io.FileWriter;
+
+import java.io.BufferedWriter;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+*/
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
         TaskManager taskManager = Managers.getDefault();
 
         // Создание эпиков
@@ -58,7 +79,7 @@ public class Main {
 
     }
 
-    private static void printAllTasks(TaskManager manager) {
+    private static void printAllTasks(TaskManager manager) throws IOException {
         System.out.println("Задачи:");
         for (Task task : manager.taskListGet()) {
             System.out.println(task);
@@ -80,5 +101,9 @@ public class Main {
         for (Task task : manager.getHistory()) {
             System.out.println(task);
         }
+
+
+
+
     }
 }
