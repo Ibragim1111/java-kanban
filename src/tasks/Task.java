@@ -2,7 +2,11 @@ package tasks;
 
 import com.example.status.Status;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import being.taskstypes.TaskType;
 
 public class Task {
     private int id;
@@ -10,11 +14,12 @@ public class Task {
     private String description;
     private Status status;
 
+     // Время начала выполнения задачи
     public Task() {
-
+        // Конструктор по умолчанию
     }
 
-    // Getters and Setters
+    // Конструктор копирования
     public Task(Task task) {
         this.id = task.id;
         this.name = task.name;
@@ -22,6 +27,16 @@ public class Task {
         this.status = task.status;
     }
 
+    // Конструктор с параметрами
+    public Task(int id, TaskType type, String name, String description, Status status) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+
+    }
+
+    // Геттеры и сеттеры
     public int getId() {
         return id;
     }
@@ -38,7 +53,6 @@ public class Task {
         this.status = status;
     }
 
-
     public String getName() {
         return name;
     }
@@ -47,17 +61,42 @@ public class Task {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    @Override
+    public String toString() {
+        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",";
+    }
+
+    public static Task fromString(String[] value) {
+        return new Task(
+                Integer.parseInt(value[0]),
+                TaskType.valueOf(value[1]),
+                value[2],
+                value[4],
+                Status.valueOf(value[3])
+        );
+    }
+
+
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
+
+
     @Override
     public boolean equals(Object obj) {
-
         if (this == obj) return true;
-
-
         if (obj == null || getClass() != obj.getClass()) return false;
 
-
         Task task = (Task) obj;
-
 
         return task.id == this.id;
     }

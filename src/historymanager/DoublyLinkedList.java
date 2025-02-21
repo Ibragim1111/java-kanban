@@ -14,7 +14,6 @@ class DoublyLinkedList {
     private Map<Integer, Node> taskMap = new HashMap<>();
     // Вложенный класс Node
 
-
     // Конструктор
     public DoublyLinkedList() {
         this.head = null;
@@ -24,10 +23,7 @@ class DoublyLinkedList {
 
     // Метод для добавления элемента в конец списка
     private void linkLast(Task task) {
-
-
         // Приводим объект к типу Person
-
         Node<Task> newNode = new Node<Task>(task);
         if (head == null) {
             head = newNode;
@@ -115,7 +111,6 @@ class DoublyLinkedList {
     }
 
     // Метод для печати списка от головы до хвоста
-
 
     // Пример использования
     public List<Task> getTasks() {
