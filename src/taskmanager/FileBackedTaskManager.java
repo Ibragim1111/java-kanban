@@ -1,12 +1,15 @@
 package taskmanager;
 
 
+import being.taskstypes.TaskType;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
+
 import java.nio.charset.StandardCharsets;
 import java.io.FileWriter;
 import java.io.IOException;
+
 
 import java.util.List;
 
@@ -81,14 +84,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public static Task fromString(String value) {
         String[] valueList = value.split(",");
 
-        String type = valueList[1];
+        TaskType type = TaskType.valueOf(valueList[1]);
 
         switch (type) {
-            case "TASK":
+            case TaskType.TASK:
                 return Task.fromString(valueList);
-            case "SUBTASK":
+            case TaskType.SUBTASK:
                 return SubTask.fromString(valueList);
-            case "EPIC":
+            case TaskType.EPIC:
                 return Epic.fromString(valueList);
             default:
                 throw new IllegalArgumentException("Неизвестный тип задачи: " + type); // Исправлено на русский язык
