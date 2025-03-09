@@ -4,9 +4,14 @@ import com.example.status.Status;
 import manager.Managers;
 import taskmanager.TaskManager;
 
+import java.io.IOException;
+
+import tasks.Task;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
         TaskManager taskManager = Managers.getDefault();
 
         // Создание эпиков
@@ -58,7 +63,7 @@ public class Main {
 
     }
 
-    private static void printAllTasks(TaskManager manager) {
+    private static void printAllTasks(TaskManager manager) throws IOException {
         System.out.println("Задачи:");
         for (Task task : manager.taskListGet()) {
             System.out.println(task);
@@ -80,5 +85,9 @@ public class Main {
         for (Task task : manager.getHistory()) {
             System.out.println(task);
         }
+
+
+
+
     }
 }
