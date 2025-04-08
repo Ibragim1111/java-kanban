@@ -3,7 +3,7 @@ package mainFile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
+
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -11,7 +11,6 @@ import com.sun.net.httpserver.*;
 import tasks.*;
 import taskmanager.TaskManager;
 import manager.Managers;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -19,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+
 import java.util.Map;
 
 public class HttpTaskServer {
