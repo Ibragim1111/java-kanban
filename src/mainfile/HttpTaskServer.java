@@ -1,9 +1,9 @@
-package mainFile;
+package mainfile;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
-
+import httpmethod.types.HttpMethod;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -11,6 +11,7 @@ import com.sun.net.httpserver.*;
 import tasks.*;
 import taskmanager.TaskManager;
 import manager.Managers;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -147,50 +148,56 @@ public class HttpTaskServer {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             try {
-                String method = exchange.getRequestMethod();
+
                 String path = exchange.getRequestURI().getPath();
 
-                if (method.equals("GET")) {
-                    if (path.equals("/tasks")) {
-                        String response = gson.toJson(taskManager.taskListGet());
-                        sendSuccess(exchange, response);
-                    } else if (path.matches("/tasks/\\d+")) {
-                        int id = Integer.parseInt(path.split("/")[2]);
-                        Task task = taskManager.getTask(id);
-                        if (task != null) {
-                            sendSuccess(exchange, gson.toJson(task));
-                        } else {
-                            sendNotFound(exchange, "Задача с ID " + id + " не найдена");
-                        }
-                    }
-                } else if (method.equals("POST")) {
-                    String requestBody = readRequestBody(exchange);
-                    Task task = gson.fromJson(requestBody, Task.class);
-                    try {
-                        if (task.getId() == 0) {
-                            taskManager.createTask(task);
-                            sendCreated(exchange, gson.toJson(task));
-                        } else {
-                            taskManager.updateTasks(task);
-                            sendSuccess(exchange, gson.toJson(task));
-                        }
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
-                        sendNotAcceptable(exchange, e.getMessage());
+                HttpMethod httpMethod = HttpMethod.valueOf(exchange.getRequestMethod());
 
+                switch (httpMethod) {
+                    case GET -> {
+                        if (path.equals("/tasks")) {
+                            String response = gson.toJson(taskManager.taskListGet());
+                            sendSuccess(exchange, response);
+                        } else if (path.matches("/tasks/\\d+")) {
+                            int id = Integer.parseInt(path.split("/")[2]);
+                            Task task = taskManager.getTask(id);
+                            if (task != null) {
+                                sendSuccess(exchange, gson.toJson(task));
+                            } else {
+                                sendNotFound(exchange, "Задача с ID " + id + " не найдена");
+                            }
+                        }
                     }
-                } else if (method.equals("DELETE")) {
-                    if (path.equals("/tasks")) {
-                        taskManager.clearTasks();
-                        sendSuccess(exchange, "Все задачи удалены");
-                    } else if (path.matches("/tasks/\\d+")) {
-                        int id = Integer.parseInt(path.split("/")[2]);
-                        taskManager.deleteTask(id);
-                        sendSuccess(exchange, "Задача с ID " + id + " удалена");
+                    case POST -> {
+                        String requestBody = readRequestBody(exchange);
+                        Task task = gson.fromJson(requestBody, Task.class);
+                        try {
+                            if (task.getId() == 0) {
+                                taskManager.createTask(task);
+                                sendCreated(exchange, gson.toJson(task));
+                            } else {
+                                taskManager.updateTasks(task);
+                                sendSuccess(exchange, gson.toJson(task));
+                            }
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                            sendNotAcceptable(exchange, e.getMessage());
+
+                        }
                     }
-                } else {
-                    sendNotFound(exchange, "Метод не поддерживается");
+                    case DELETE -> {
+                        if (path.equals("/tasks")) {
+                            taskManager.clearTasks();
+                            sendSuccess(exchange, "Все задачи удалены");
+                        } else if (path.matches("/tasks/\\d+")) {
+                            int id = Integer.parseInt(path.split("/")[2]);
+                            taskManager.deleteTask(id);
+                            sendSuccess(exchange, "Задача с ID " + id + " удалена");
+                        }
+                    }
+                    default -> sendNotFound(exchange, "Метод не поддерживается");
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 sendInternalError(exchange, e.getMessage());
@@ -204,47 +211,50 @@ public class HttpTaskServer {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             try {
-                String method = exchange.getRequestMethod();
                 String path = exchange.getRequestURI().getPath();
+                HttpMethod httpMethod = HttpMethod.valueOf(exchange.getRequestMethod());
 
-                if (method.equals("GET")) {
-                    if (path.equals("/epics")) {
-                        String respone = gson.toJson(taskManager.getEpicList());
-                        sendSuccess(exchange, respone);
-                    } else if (path.matches("/epics/\\d+")) {
-                        int id = Integer.parseInt(path.split("/")[2]);
-                        Epic epic = taskManager.getEpic(id);
-                        if (epic != null) {
-                            sendSuccess(exchange, gson.toJson(epic));
-                        } else {
-                            sendNotFound(exchange, "Задача с ID " + id + " не найдена");
+                switch (httpMethod) {
+                    case GET -> {
+                        if (path.equals("/epics")) {
+                            String respone = gson.toJson(taskManager.getEpicList());
+                            sendSuccess(exchange, respone);
+                        } else if (path.matches("/epics/\\d+")) {
+                            int id = Integer.parseInt(path.split("/")[2]);
+                            Epic epic = taskManager.getEpic(id);
+                            if (epic != null) {
+                                sendSuccess(exchange, gson.toJson(epic));
+                            } else {
+                                sendNotFound(exchange, "Задача с ID " + id + " не найдена");
+                            }
                         }
                     }
-                } else if (method.equals("POST")) {
-                    String requestBody = readRequestBody(exchange);
-                    Epic epic = gson.fromJson(requestBody, Epic.class);
-                    try {
-                        if (epic.getId() == 0) {
-                            taskManager.createEpic(epic);
-                            sendCreated(exchange, gson.toJson(epic));
-                        } else {
-                            taskManager.updatedEpic(epic);
-                            sendSuccess(exchange, gson.toJson(epic));
+                    case POST -> {
+                        String requestBody = readRequestBody(exchange);
+                        Epic epic = gson.fromJson(requestBody, Epic.class);
+                        try {
+                            if (epic.getId() == 0) {
+                                taskManager.createEpic(epic);
+                                sendCreated(exchange, gson.toJson(epic));
+                            } else {
+                                taskManager.updatedEpic(epic);
+                                sendSuccess(exchange, gson.toJson(epic));
+                            }
+                        } catch (IllegalArgumentException e) {
+                            sendNotAcceptable(exchange, e.getMessage());
                         }
-                    } catch (IllegalArgumentException e) {
-                        sendNotAcceptable(exchange, e.getMessage());
                     }
-                } else if (method.equals("DELETE")) {
-                    if (path.equals("/epics")) {
-                        taskManager.clearEpics();
-                        sendSuccess(exchange, "Все задачи удалены");
-                    } else if (path.matches("/epics/\\d+")) {
-                        int id = Integer.parseInt(path.split("/")[2]);
-                        taskManager.deleteEpic(id);
-                        sendSuccess(exchange, "Задача с ID " + id + " удалена");
+                    case DELETE -> {
+                        if (path.equals("/epics")) {
+                            taskManager.clearEpics();
+                            sendSuccess(exchange, "Все задачи удалены");
+                        } else if (path.matches("/epics/\\d+")) {
+                            int id = Integer.parseInt(path.split("/")[2]);
+                            taskManager.deleteEpic(id);
+                            sendSuccess(exchange, "Задача с ID " + id + " удалена");
+                        }
                     }
-                } else {
-                    sendNotFound(exchange, "Метод не поддерживается");
+                    default -> sendNotFound(exchange, "Метод не поддерживается");
                 }
 
             } catch (Exception e) {
@@ -261,47 +271,50 @@ public class HttpTaskServer {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             try {
-                String method = exchange.getRequestMethod();
-                String path = exchange.getRequestURI().getPath();
 
-                if (method.equals("GET")) {
-                    if (path.equals("/subtasks")) {
-                        String respone = gson.toJson(taskManager.subTaskListGet());
-                        sendSuccess(exchange, respone);
-                    } else if (path.matches("/subtasks/\\d+")) {
-                        int id = Integer.parseInt(path.split("/")[2]);
-                        SubTask epic = taskManager.getSubTask(id);
-                        if (epic != null) {
-                            sendSuccess(exchange, gson.toJson(epic));
-                        } else {
-                            sendNotFound(exchange, "Задача с ID " + id + " не найдена");
+                String path = exchange.getRequestURI().getPath();
+                HttpMethod httpMethod = HttpMethod.valueOf(exchange.getRequestMethod());
+                switch (httpMethod) {
+                    case GET -> {
+                        if (path.equals("/subtasks")) {
+                            String respone = gson.toJson(taskManager.subTaskListGet());
+                            sendSuccess(exchange, respone);
+                        } else if (path.matches("/subtasks/\\d+")) {
+                            int id = Integer.parseInt(path.split("/")[2]);
+                            SubTask epic = taskManager.getSubTask(id);
+                            if (epic != null) {
+                                sendSuccess(exchange, gson.toJson(epic));
+                            } else {
+                                sendNotFound(exchange, "Задача с ID " + id + " не найдена");
+                            }
                         }
                     }
-                } else if (method.equals("POST")) {
-                    String requestBody = readRequestBody(exchange);
-                    SubTask subTask = gson.fromJson(requestBody, SubTask.class);
-                    try {
-                        if (subTask.getId() == 0) {
-                            taskManager.createSubTask(subTask);
-                            sendCreated(exchange, gson.toJson(subTask));
-                        } else {
-                            taskManager.updateSubTasks(subTask);
-                            sendSuccess(exchange, gson.toJson(subTask));
+                    case POST -> {
+                        String requestBody = readRequestBody(exchange);
+                        SubTask subTask = gson.fromJson(requestBody, SubTask.class);
+                        try {
+                            if (subTask.getId() == 0) {
+                                taskManager.createSubTask(subTask);
+                                sendCreated(exchange, gson.toJson(subTask));
+                            } else {
+                                taskManager.updateSubTasks(subTask);
+                                sendSuccess(exchange, gson.toJson(subTask));
+                            }
+                        } catch (IllegalArgumentException e) {
+                            sendNotAcceptable(exchange, e.getMessage());
                         }
-                    } catch (IllegalArgumentException e) {
-                        sendNotAcceptable(exchange, e.getMessage());
                     }
-                } else if (method.equals("DELETE")) {
-                    if (path.equals("/subtasks")) {
-                        taskManager.clearSubTasks();
-                        sendSuccess(exchange, "Все задачи удалены");
-                    } else if (path.matches("/epics/\\d+")) {
-                        int id = Integer.parseInt(path.split("/")[2]);
-                        taskManager.deleteSubTask(id);
-                        sendSuccess(exchange, "Задача с ID " + id + " удалена");
+                    case DELETE -> {
+                        if (path.equals("/subtasks")) {
+                            taskManager.clearSubTasks();
+                            sendSuccess(exchange, "Все задачи удалены");
+                        } else if (path.matches("/epics/\\d+")) {
+                            int id = Integer.parseInt(path.split("/")[2]);
+                            taskManager.deleteSubTask(id);
+                            sendSuccess(exchange, "Задача с ID " + id + " удалена");
+                        }
                     }
-                } else {
-                    sendNotFound(exchange, "Метод не поддерживается");
+                    default -> sendNotFound(exchange, "Метод не поддерживается");
                 }
 
             } catch (Exception e) {
@@ -316,7 +329,9 @@ public class HttpTaskServer {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             try {
-                if (exchange.getRequestMethod().equals("GET")) {
+                HttpMethod httpMethod = HttpMethod.valueOf(exchange.getRequestMethod());
+
+                if (httpMethod == HttpMethod.GET) {
                     String response = gson.toJson(taskManager.getHistory());
                     sendSuccess(exchange, response);
                 } else {
@@ -333,7 +348,9 @@ public class HttpTaskServer {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             try {
-                if (exchange.getRequestMethod().equals("GET")) {
+                HttpMethod httpMethod = HttpMethod.valueOf(exchange.getRequestMethod());
+
+                if (httpMethod == HttpMethod.GET) {
                     String response = gson.toJson(taskManager.getPrioritized());
                     sendSuccess(exchange, response);
                 } else {

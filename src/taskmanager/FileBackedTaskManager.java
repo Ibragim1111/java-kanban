@@ -66,9 +66,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 Task task = fromString(line);
 
                 if (task != null) {
-                    if (task instanceof Epic) {
+                    if (task.getTaskType() == TaskType.EPIC) {
                         createEpic((Epic) task);
-                    } else if (task instanceof SubTask) {
+                    } else if (task.getTaskType() == TaskType.SUBTASK) {
                         createSubTask((SubTask) task);
                     } else {
                         createTask(task);
