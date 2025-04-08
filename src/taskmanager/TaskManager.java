@@ -7,6 +7,7 @@ import tasks.SubTask;
 import tasks.Task;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     void createTask(Task task);
@@ -35,7 +36,7 @@ public interface TaskManager {
 
     Task getTask(int id);
 
-    SubTask getSubTasks(int id);
+    SubTask getSubTask(int id);
 
     Epic getEpic(int id);
 
@@ -50,4 +51,6 @@ public interface TaskManager {
     List<Task> getHistory();
 
     List<Task> getAllTasks();
+
+    Set<Task> getPrioritized();
 }

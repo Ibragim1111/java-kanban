@@ -37,7 +37,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         SubTask subTask = new SubTask(2, TaskType.SUBTASK, "SubTask 1", "Description", Status.NEW, 1);
         taskManager.createSubTask(subTask);
 
-        assertEquals(subTask, taskManager.getSubTasks(2));
+        assertEquals(subTask, taskManager.getSubTask(2));
     }
 
     @Test

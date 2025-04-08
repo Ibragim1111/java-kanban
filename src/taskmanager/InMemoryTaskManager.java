@@ -163,7 +163,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubTask getSubTasks(int id) {
+    public SubTask getSubTask(int id) {
         SubTask subTask = subTasks.get(id);
         if (subTask != null) {
             history.add(subTask);
@@ -267,5 +267,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     public List<Task> getAllTasks() {
         return allTasks;
+    }
+
+    public Set<Task> getPrioritized() {
+        return prioritizedTasks;
     }
 }

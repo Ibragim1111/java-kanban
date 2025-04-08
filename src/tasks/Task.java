@@ -2,6 +2,7 @@ package tasks;
 
 import com.example.status.Status;
 
+
 import java.util.Objects;
 import being.taskstypes.TaskType;
 import java.time.Duration;
@@ -146,6 +147,7 @@ public class Task {
         return Objects.hash(id);
     }
 }
+
 
 
 
